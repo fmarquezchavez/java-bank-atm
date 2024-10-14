@@ -17,6 +17,8 @@ public class Main {
         System.out.println("Balance: $"+ balance);
         System.out.println("History transactions: ");
         transactionHistory.forEach(transaction -> System.out.println("*" + transaction));
+        ATM atm = new ATM();
+        atm.start();
     }
 
     public static  boolean authenticateUser (String inputPin, String currentPin){
