@@ -1,17 +1,53 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Welcome to JavaBank ATM! version control with Git :)");
+        String accountNumber = "12345678";
+        double balance =  1500.50;
+        String pin = "1234";
+        String status = "";
+        ArrayList<String> transactionHistory = new ArrayList<>();
+        balance = deposit(balance, 500, transactionHistory );
+        balance = withdraw(balance, 5000, transactionHistory);
+        status = (balance > 0 )? "Credit" : "Debt" ;
+        System.out.println("User status:" + status);
+        authenticateUser("1234",pin);
+        System.out.println("Balance: $"+ balance);
+        System.out.println("History transactions: ");
+        transactionHistory.forEach(transaction -> System.out.println("*" + transaction));
+    }
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+    public static  boolean authenticateUser (String inputPin, String currentPin){
+        int attempts = 0;
+        while (attempts <3) {
+            if (currentPin.equals(inputPin)){
+                System.out.println("Authenticated user");
+                return true;
+            }else{
+                attempts ++;
+                System.out.println("Failed attemp");
+            }
         }
+        return false;
+    }
+
+    public static double deposit (double balance, double deposit, ArrayList<String> transactionHistory){
+        balance += deposit;
+        transactionHistory.add("Amount added: $"+deposit);
+        return balance;
+    }
+
+    public static double withdraw (double balance, double withdraw, ArrayList<String>transactionHistory){
+        if(balance>=withdraw){
+            balance-=withdraw;
+            transactionHistory.add("Amount withdrawed: $"+ withdraw);
+        }else{
+            transactionHistory.add("Failed withdraw, insufficient balance: $"+balance + " to withdraw $" +withdraw);
+        }
+        return balance;
     }
 }
+
+
